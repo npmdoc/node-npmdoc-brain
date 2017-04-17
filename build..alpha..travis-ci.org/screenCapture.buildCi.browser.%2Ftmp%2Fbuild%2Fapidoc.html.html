@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/harthur/brain"
-
-    >brain (v0.7.0)</a>
+    <a href="https://github.com/harthur/brain">brain (v0.7.0)</a>
 </h1>
 <h4>Neural network library</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.brain">module brain</a><ol>
 
@@ -620,7 +613,7 @@
 
 
 # brain
-`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here&#x27;s an example
+`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here's an example
  of using it to approximate the XOR function:
 
 ```javascript
@@ -645,13 +638,13 @@ var output = net.run([1, 0]);  // [0.987]
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">NeuralNetwork.prototype.adjustWeights = function (learningRate) {
-  for (var layer = 1; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 1; layer &lt;= this.outputLayer; layer++) {
     var incoming = this.outputs[layer - 1];
 
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var delta = this.deltas[layer][node];
 
-      for (var k = 0; k &#x3c; incoming.length; k++) {
+      for (var k = 0; k &lt; incoming.length; k++) {
         var change = this.changes[layer][node][k];
 
         change = (learningRate * delta * incoming[k])
@@ -677,8 +670,8 @@ var output = net.run([1, 0]);  // [0.987]
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">NeuralNetwork.prototype.calculateDeltas = function (target) {
-  for (var layer = this.outputLayer; layer &#x3e;= 0; layer--) {
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+  for (var layer = this.outputLayer; layer &gt;= 0; layer--) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var output = this.outputs[layer][node];
 
       var error = 0;
@@ -687,7 +680,7 @@ var output = net.run([1, 0]);  // [0.987]
       }
       else {
         var deltas = this.deltas[layer + 1];
-        for (var k = 0; k &#x3c; deltas.length; k++) {
+        for (var k = 0; k &lt; deltas.length; k++) {
           error += deltas[k] * this.weights[layer + 1][k][node];
         }
       }
@@ -734,9 +727,9 @@ var output = net.run([1, 0]);  // [0.987]
   }
   // turn sparse hash input into arrays with 0s as filler
   var datum = data[0].input;
-  if (!_(datum).isArray() &#x26;&#x26; !(datum instanceof Float64Array)) {
+  if (!_(datum).isArray() &amp;&amp; !(datum instanceof Float64Array)) {
     if (!this.inputLookup) {
-      this.inputLookup = lookup.buildLookup(_(data).pluck(&#x22;input&#x22;));
+      this.inputLookup = lookup.buildLookup(_(data).pluck("input"));
     }
     data = data.map(function(datum) {
       var array = lookup.toArray(this.inputLookup, datum.input)
@@ -746,7 +739,7 @@ var output = net.run([1, 0]);  // [0.987]
 
   if (!_(data[0].output).isArray()) {
     if (!this.outputLookup) {
-      this.outputLookup = lookup.buildLookup(_(data).pluck(&#x22;output&#x22;));
+      this.outputLookup = lookup.buildLookup(_(data).pluck("output"));
     }
     data = data.map(function(datum) {
       var array = lookup.toArray(this.outputLookup, datum.output);
@@ -776,12 +769,12 @@ var output = net.run([1, 0]);  // [0.987]
   this.biases = new Array(size);
   this.outputs = new Array(size);
 
-  for (var i = 0; i &#x3c;= this.outputLayer; i++) {
+  for (var i = 0; i &lt;= this.outputLayer; i++) {
     var layer = json.layers[i];
-    if (i == 0 &#x26;&#x26; (!layer[0] || json.inputLookup)) {
+    if (i == 0 &amp;&amp; (!layer[0] || json.inputLookup)) {
       this.inputLookup = lookup.lookupFromHash(layer);
     }
-    else if (i == this.outputLayer &#x26;&#x26; (!layer[0] || json.outputLookup)) {
+    else if (i == this.outputLayer &amp;&amp; (!layer[0] || json.outputLookup)) {
       this.outputLookup = lookup.lookupFromHash(layer);
     }
 
@@ -824,18 +817,18 @@ var output = net.run([1, 0]);  // [0.987]
   this.changes = []; // for momentum
   this.errors = [];
 
-  for (var layer = 0; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 0; layer &lt;= this.outputLayer; layer++) {
     var size = this.sizes[layer];
     this.deltas[layer] = zeros(size);
     this.errors[layer] = zeros(size);
     this.outputs[layer] = zeros(size);
 
-    if (layer &#x3e; 0) {
+    if (layer &gt; 0) {
       this.biases[layer] = randos(size);
       this.weights[layer] = new Array(size);
       this.changes[layer] = new Array(size);
 
-      for (var node = 0; node &#x3c; size; node++) {
+      for (var node = 0; node &lt; size; node++) {
         var prevSize = this.sizes[layer - 1];
         this.weights[layer][node] = randos(prevSize);
         this.changes[layer][node] = zeros(prevSize);
@@ -882,12 +875,12 @@ var output = net.run([1, 0]);  // [0.987]
     <li>description and source-code<pre class="apidocCodePre">NeuralNetwork.prototype.runInput = function (input) {
   this.outputs[0] = input;  // set output state of input layer
 
-  for (var layer = 1; layer &#x3c;= this.outputLayer; layer++) {
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+  for (var layer = 1; layer &lt;= this.outputLayer; layer++) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var weights = this.weights[layer][node];
 
       var sum = this.biases[layer][node];
-      for (var k = 0; k &#x3c; weights.length; k++) {
+      for (var k = 0; k &lt; weights.length; k++) {
         sum += weights[k] * input[k];
       }
       this.outputs[layer][node] = 1 / (1 + Math.exp(-sum));
@@ -924,13 +917,13 @@ var output = net.run([1, 0]);  // [0.987]
   // run each pattern through the trained network and collect
   // error and misclassification statistics
   var sum = 0;
-  for (var i = 0; i &#x3c; data.length; i++) {
+  for (var i = 0; i &lt; data.length; i++) {
     var output = this.runInput(data[i].input);
     var target = data[i].output;
 
     var actual, expected;
     if (isBinary) {
-      actual = output[0] &#x3e; this.binaryThresh ? 1 : 0;
+      actual = output[0] &gt; this.binaryThresh ? 1 : 0;
       expected = target[0];
     }
     else {
@@ -948,16 +941,16 @@ var output = net.run([1, 0]);  // [0.987]
     }
 
     if (isBinary) {
-      if (actual == 0 &#x26;&#x26; expected == 0) {
+      if (actual == 0 &amp;&amp; expected == 0) {
         trueNeg++;
       }
-      else if (actual == 1 &#x26;&#x26; expected == 1) {
+      else if (actual == 1 &amp;&amp; expected == 1) {
         truePos++;
       }
-      else if (actual == 0 &#x26;&#x26; expected == 1) {
+      else if (actual == 0 &amp;&amp; expected == 1) {
         falseNeg++;
       }
-      else if (actual == 1 &#x26;&#x26; expected == 0) {
+      else if (actual == 1 &amp;&amp; expected == 0) {
         falsePos++;
       }
     }
@@ -1003,9 +996,9 @@ var output = net.run([1, 0]);  // [0.987]
     <li>description and source-code<pre class="apidocCodePre">NeuralNetwork.prototype.toFunction = function () {
   var json = this.toJSON();
   // return standalone function that mimics run()
-  return new Function(&#x22;input&#x22;,
-&#x27;  var net = &#x27; + JSON.stringify(json) + &#x27;;\n\n\
-for (var i = 1; i &#x3c; net.layers.length; i++) {\n\
+  return new Function("input",
+'  var net = ' + JSON.stringify(json) + ';\n\n\
+for (var i = 1; i &lt; net.layers.length; i++) {\n\
   var layer = net.layers[i];\n\
   var output = {};\n\
   \n\
@@ -1020,7 +1013,7 @@ for (var i = 1; i &#x3c; net.layers.length; i++) {\n\
   }\n\
   input = output;\n\
 }\n\
-return output;&#x27;);
+return output;');
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -1040,38 +1033,38 @@ return output;&#x27;);
       layers: [
         { x: {},
           y: {}},
-        {&#x27;0&#x27;: {bias: -0.98771313, weights: {x: 0.8374838, y: 1.245858},
-         &#x27;1&#x27;: {bias: 3.48192004, weights: {x: 1.7825821, y: -2.67899}}},
-        { f: {bias: 0.27205739, weights: {&#x27;0&#x27;: 1.3161821, &#x27;1&#x27;: 2.00436}}}
+        {'0': {bias: -0.98771313, weights: {x: 0.8374838, y: 1.245858},
+         '1': {bias: 3.48192004, weights: {x: 1.7825821, y: -2.67899}}},
+        { f: {bias: 0.27205739, weights: {'0': 1.3161821, '1': 2.00436}}}
       ]
     }
   */
 </span>  var layers = [];
-  for (var layer = 0; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 0; layer &lt;= this.outputLayer; layer++) {
     layers[layer] = {};
 
     var nodes;
     // turn any internal arrays back into hashes for readable json
-    if (layer == 0 &#x26;&#x26; this.inputLookup) {
+    if (layer == 0 &amp;&amp; this.inputLookup) {
       nodes = _(this.inputLookup).keys();
     }
-    else if (layer == this.outputLayer &#x26;&#x26; this.outputLookup) {
+    else if (layer == this.outputLayer &amp;&amp; this.outputLookup) {
       nodes = _(this.outputLookup).keys();
     }
     else {
       nodes = _.range(0, this.sizes[layer]);
     }
 
-    for (var j = 0; j &#x3c; nodes.length; j++) {
+    for (var j = 0; j &lt; nodes.length; j++) {
       var node = nodes[j];
       layers[layer][node] = {};
 
-      if (layer &#x3e; 0) {
+      if (layer &gt; 0) {
         layers[layer][node].bias = this.biases[layer][j];
         layers[layer][node].weights = {};
         for (var k in layers[layer - 1]) {
           var index = k;
-          if (layer == 1 &#x26;&#x26; this.inputLookup) {
+          if (layer == 1 &amp;&amp; this.inputLookup) {
             index = this.inputLookup[k];
           }
           layers[layer][node].weights[k] = this.weights[layer][j][index];
@@ -1116,18 +1109,18 @@ return output;&#x27;);
   this.initialize(sizes);
 
   var error = 1;
-  for (var i = 0; i &#x3c; iterations &#x26;&#x26; error &#x3e; errorThresh; i++) {
+  for (var i = 0; i &lt; iterations &amp;&amp; error &gt; errorThresh; i++) {
     var sum = 0;
-    for (var j = 0; j &#x3c; data.length; j++) {
+    for (var j = 0; j &lt; data.length; j++) {
       var err = this.trainPattern(data[j].input, data[j].output, learningRate);
       sum += err;
     }
     error = sum / data.length;
 
-    if (log &#x26;&#x26; (i % logPeriod == 0)) {
-      console.log(&#x22;iterations:&#x22;, i, &#x22;training error:&#x22;, error);
+    if (log &amp;&amp; (i % logPeriod == 0)) {
+      console.log("iterations:", i, "training error:", error);
     }
-    if (callback &#x26;&#x26; (i % callbackPeriod == 0)) {
+    if (callback &amp;&amp; (i % callbackPeriod == 0)) {
       callback({ error: error, iterations: i });
     }
   }
@@ -1274,7 +1267,7 @@ return output;&#x27;);
 
 
 # brain
-`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here&#x27;s an example
+`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here's an example
  of using it to approximate the XOR function:
 
 ```javascript
@@ -1304,13 +1297,13 @@ var output = net.run([1, 0]);  // [0.987]
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">adjustWeights = function (learningRate) {
-  for (var layer = 1; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 1; layer &lt;= this.outputLayer; layer++) {
     var incoming = this.outputs[layer - 1];
 
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var delta = this.deltas[layer][node];
 
-      for (var k = 0; k &#x3c; incoming.length; k++) {
+      for (var k = 0; k &lt; incoming.length; k++) {
         var change = this.changes[layer][node][k];
 
         change = (learningRate * delta * incoming[k])
@@ -1338,7 +1331,7 @@ trainPattern : function(input, target) {
 },
 
 calculateDeltas: function(target) {
-  for (var layer = this.outputLayer; layer &#x3e;= 0; layer--) {
+  for (var layer = this.outputLayer; layer &gt;= 0; layer--) {
 ...</pre></li>
     </ul>
 
@@ -1352,8 +1345,8 @@ calculateDeltas: function(target) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">calculateDeltas = function (target) {
-  for (var layer = this.outputLayer; layer &#x3e;= 0; layer--) {
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+  for (var layer = this.outputLayer; layer &gt;= 0; layer--) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var output = this.outputs[layer][node];
 
       var error = 0;
@@ -1362,7 +1355,7 @@ calculateDeltas: function(target) {
       }
       else {
         var deltas = this.deltas[layer + 1];
-        for (var k = 0; k &#x3c; deltas.length; k++) {
+        for (var k = 0; k &lt; deltas.length; k++) {
           error += deltas[k] * this.weights[layer + 1][k][node];
         }
       }
@@ -1444,9 +1437,9 @@ error: 0.0039139985510105032,  // training error
   }
   // turn sparse hash input into arrays with 0s as filler
   var datum = data[0].input;
-  if (!_(datum).isArray() &#x26;&#x26; !(datum instanceof Float64Array)) {
+  if (!_(datum).isArray() &amp;&amp; !(datum instanceof Float64Array)) {
     if (!this.inputLookup) {
-      this.inputLookup = lookup.buildLookup(_(data).pluck(&#x22;input&#x22;));
+      this.inputLookup = lookup.buildLookup(_(data).pluck("input"));
     }
     data = data.map(function(datum) {
       var array = lookup.toArray(this.inputLookup, datum.input)
@@ -1456,7 +1449,7 @@ error: 0.0039139985510105032,  // training error
 
   if (!_(data[0].output).isArray()) {
     if (!this.outputLookup) {
-      this.outputLookup = lookup.buildLookup(_(data).pluck(&#x22;output&#x22;));
+      this.outputLookup = lookup.buildLookup(_(data).pluck("output"));
     }
     data = data.map(function(datum) {
       var array = lookup.toArray(this.outputLookup, datum.output);
@@ -1502,12 +1495,12 @@ var hiddenSizes = this.hiddenSizes;
   this.biases = new Array(size);
   this.outputs = new Array(size);
 
-  for (var i = 0; i &#x3c;= this.outputLayer; i++) {
+  for (var i = 0; i &lt;= this.outputLayer; i++) {
     var layer = json.layers[i];
-    if (i == 0 &#x26;&#x26; (!layer[0] || json.inputLookup)) {
+    if (i == 0 &amp;&amp; (!layer[0] || json.inputLookup)) {
       this.inputLookup = lookup.lookupFromHash(layer);
     }
-    else if (i == this.outputLayer &#x26;&#x26; (!layer[0] || json.outputLookup)) {
+    else if (i == this.outputLayer &amp;&amp; (!layer[0] || json.outputLookup)) {
       this.outputLookup = lookup.lookupFromHash(layer);
     }
 
@@ -1565,18 +1558,18 @@ var run = net.toFunction();
   this.changes = []; // for momentum
   this.errors = [];
 
-  for (var layer = 0; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 0; layer &lt;= this.outputLayer; layer++) {
     var size = this.sizes[layer];
     this.deltas[layer] = zeros(size);
     this.errors[layer] = zeros(size);
     this.outputs[layer] = zeros(size);
 
-    if (layer &#x3e; 0) {
+    if (layer &gt; 0) {
       this.biases[layer] = randos(size);
       this.weights[layer] = new Array(size);
       this.changes[layer] = new Array(size);
 
-      for (var node = 0; node &#x3c; size; node++) {
+      for (var node = 0; node &lt; size; node++) {
         var prevSize = this.sizes[layer - 1];
         this.weights[layer][node] = randos(prevSize);
         this.changes[layer][node] = zeros(prevSize);
@@ -1595,9 +1588,9 @@ var sizes = _([inputSize, hiddenSizes, outputSize]).flatten();
 this.<span class="apidocCodeKeywordSpan">initialize</span>(sizes);
 
 var error = 1;
-for (var i = 0; i &#x3c; iterations &#x26;&#x26; error &#x3e; errorThresh; i++) {
+for (var i = 0; i &lt; iterations &amp;&amp; error &gt; errorThresh; i++) {
   var sum = 0;
-  for (var j = 0; j &#x3c; data.length; j++) {
+  for (var j = 0; j &lt; data.length; j++) {
     sum += this.trainPattern(data[j].input, data[j].output);
   }
 ...</pre></li>
@@ -1635,7 +1628,7 @@ net.train([{input: [0, 0], output: [0]},
 var output = net.<span class="apidocCodeKeywordSpan">run</span>([1, 0]);  // [0.987]
 ```
 
-There&#x27;s no reason to use a neural network to figure out XOR however (-: so here&#x27;s a more involved, realistic example:
+There's no reason to use a neural network to figure out XOR however (-: so here's a more involved, realistic example:
 [Demo: training a neural network to recognize color contrast](http://harthur.github.com/brain/)
 
 ## Using in node
@@ -1655,12 +1648,12 @@ If you have [node](http://nodejs.org/) you can install with [npm](http://github.
     <li>description and source-code<pre class="apidocCodePre">runInput = function (input) {
   this.outputs[0] = input;  // set output state of input layer
 
-  for (var layer = 1; layer &#x3c;= this.outputLayer; layer++) {
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+  for (var layer = 1; layer &lt;= this.outputLayer; layer++) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var weights = this.weights[layer][node];
 
       var sum = this.biases[layer][node];
-      for (var k = 0; k &#x3c; weights.length; k++) {
+      for (var k = 0; k &lt; weights.length; k++) {
         sum += weights[k] * input[k];
       }
       this.outputs[layer][node] = 1 / (1 + Math.exp(-sum));
@@ -1712,13 +1705,13 @@ run: function(input) {
   // run each pattern through the trained network and collect
   // error and misclassification statistics
   var sum = 0;
-  for (var i = 0; i &#x3c; data.length; i++) {
+  for (var i = 0; i &lt; data.length; i++) {
     var output = this.runInput(data[i].input);
     var target = data[i].output;
 
     var actual, expected;
     if (isBinary) {
-      actual = output[0] &#x3e; this.binaryThresh ? 1 : 0;
+      actual = output[0] &gt; this.binaryThresh ? 1 : 0;
       expected = target[0];
     }
     else {
@@ -1736,16 +1729,16 @@ run: function(input) {
     }
 
     if (isBinary) {
-      if (actual == 0 &#x26;&#x26; expected == 0) {
+      if (actual == 0 &amp;&amp; expected == 0) {
         trueNeg++;
       }
-      else if (actual == 1 &#x26;&#x26; expected == 1) {
+      else if (actual == 1 &amp;&amp; expected == 1) {
         truePos++;
       }
-      else if (actual == 0 &#x26;&#x26; expected == 1) {
+      else if (actual == 0 &amp;&amp; expected == 1) {
         falseNeg++;
       }
-      else if (actual == 1 &#x26;&#x26; expected == 0) {
+      else if (actual == 1 &amp;&amp; expected == 0) {
         falsePos++;
       }
     }
@@ -1807,9 +1800,9 @@ return {
     <li>description and source-code<pre class="apidocCodePre">toFunction = function () {
   var json = this.toJSON();
   // return standalone function that mimics run()
-  return new Function(&#x22;input&#x22;,
-&#x27;  var net = &#x27; + JSON.stringify(json) + &#x27;;\n\n\
-for (var i = 1; i &#x3c; net.layers.length; i++) {\n\
+  return new Function("input",
+'  var net = ' + JSON.stringify(json) + ';\n\n\
+for (var i = 1; i &lt; net.layers.length; i++) {\n\
   var layer = net.layers[i];\n\
   var output = {};\n\
   \n\
@@ -1824,7 +1817,7 @@ for (var i = 1; i &#x3c; net.layers.length; i++) {\n\
   }\n\
   input = output;\n\
 }\n\
-return output;&#x27;);
+return output;');
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
@@ -1861,38 +1854,38 @@ The network now has a [WriteStream](http://nodejs.org/api/stream.html#stream_cla
       layers: [
         { x: {},
           y: {}},
-        {&#x27;0&#x27;: {bias: -0.98771313, weights: {x: 0.8374838, y: 1.245858},
-         &#x27;1&#x27;: {bias: 3.48192004, weights: {x: 1.7825821, y: -2.67899}}},
-        { f: {bias: 0.27205739, weights: {&#x27;0&#x27;: 1.3161821, &#x27;1&#x27;: 2.00436}}}
+        {'0': {bias: -0.98771313, weights: {x: 0.8374838, y: 1.245858},
+         '1': {bias: 3.48192004, weights: {x: 1.7825821, y: -2.67899}}},
+        { f: {bias: 0.27205739, weights: {'0': 1.3161821, '1': 2.00436}}}
       ]
     }
   */
 </span>  var layers = [];
-  for (var layer = 0; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 0; layer &lt;= this.outputLayer; layer++) {
     layers[layer] = {};
 
     var nodes;
     // turn any internal arrays back into hashes for readable json
-    if (layer == 0 &#x26;&#x26; this.inputLookup) {
+    if (layer == 0 &amp;&amp; this.inputLookup) {
       nodes = _(this.inputLookup).keys();
     }
-    else if (layer == this.outputLayer &#x26;&#x26; this.outputLookup) {
+    else if (layer == this.outputLayer &amp;&amp; this.outputLookup) {
       nodes = _(this.outputLookup).keys();
     }
     else {
       nodes = _.range(0, this.sizes[layer]);
     }
 
-    for (var j = 0; j &#x3c; nodes.length; j++) {
+    for (var j = 0; j &lt; nodes.length; j++) {
       var node = nodes[j];
       layers[layer][node] = {};
 
-      if (layer &#x3e; 0) {
+      if (layer &gt; 0) {
         layers[layer][node].bias = this.biases[layer][j];
         layers[layer][node].weights = {};
         for (var k in layers[layer - 1]) {
           var index = k;
-          if (layer == 1 &#x26;&#x26; this.inputLookup) {
+          if (layer == 1 &amp;&amp; this.inputLookup) {
             index = this.inputLookup[k];
           }
           layers[layer][node].weights[k] = this.weights[layer][j][index];
@@ -1904,8 +1897,8 @@ The network now has a [WriteStream](http://nodejs.org/api/stream.html#stream_cla
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-If the training error is still something huge like `0.4` after 20000 iterations, it&#x27;s a good sign that the network can&#x27
-;t make sense of the data you&#x27;re giving it.
+If the training error is still something huge like `0.4` after 20000 iterations, it's a good sign that the network can'
+;t make sense of the data you're giving it.
 
 ## JSON
 Serialize or load in the state of a trained network with JSON:
@@ -1954,18 +1947,18 @@ You can also get a custom standalone function from a trained network that acts j
   this.initialize(sizes);
 
   var error = 1;
-  for (var i = 0; i &#x3c; iterations &#x26;&#x26; error &#x3e; errorThresh; i++) {
+  for (var i = 0; i &lt; iterations &amp;&amp; error &gt; errorThresh; i++) {
     var sum = 0;
-    for (var j = 0; j &#x3c; data.length; j++) {
+    for (var j = 0; j &lt; data.length; j++) {
       var err = this.trainPattern(data[j].input, data[j].output, learningRate);
       sum += err;
     }
     error = sum / data.length;
 
-    if (log &#x26;&#x26; (i % logPeriod == 0)) {
-      console.log(&#x22;iterations:&#x22;, i, &#x22;training error:&#x22;, error);
+    if (log &amp;&amp; (i % logPeriod == 0)) {
+      console.log("iterations:", i, "training error:", error);
     }
-    if (callback &#x26;&#x26; (i % callbackPeriod == 0)) {
+    if (callback &amp;&amp; (i % callbackPeriod == 0)) {
       callback({ error: error, iterations: i });
     }
   }
@@ -1978,7 +1971,7 @@ You can also get a custom standalone function from a trained network that acts j
     <li>example usage<pre class="apidocCodePre">...
 
 # brain
-`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here&#x27;s an example
+`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here's an example
  of using it to approximate the XOR function:
 
 ```javascript
@@ -2021,9 +2014,9 @@ var sizes = _([inputSize, hiddenSizes, outputSize]).flatten();
 this.initialize(sizes);
 
 var error = 1;
-for (var i = 0; i &#x3c; iterations &#x26;&#x26; error &#x3e; errorThresh; i++) {
+for (var i = 0; i &lt; iterations &amp;&amp; error &gt; errorThresh; i++) {
   var sum = 0;
-  for (var j = 0; j &#x3c; data.length; j++) {
+  for (var j = 0; j &lt; data.length; j++) {
     sum += this.<span class="apidocCodeKeywordSpan">trainPattern</span>(data[j].input, data[j].output);
   }
   error = sum / data.length;
@@ -2050,13 +2043,13 @@ return {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">adjustWeights = function (learningRate) {
-  for (var layer = 1; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 1; layer &lt;= this.outputLayer; layer++) {
     var incoming = this.outputs[layer - 1];
 
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var delta = this.deltas[layer][node];
 
-      for (var k = 0; k &#x3c; incoming.length; k++) {
+      for (var k = 0; k &lt; incoming.length; k++) {
         var change = this.changes[layer][node][k];
 
         change = (learningRate * delta * incoming[k])
@@ -2084,7 +2077,7 @@ trainPattern : function(input, target) {
 },
 
 calculateDeltas: function(target) {
-  for (var layer = this.outputLayer; layer &#x3e;= 0; layer--) {
+  for (var layer = this.outputLayer; layer &gt;= 0; layer--) {
 ...</pre></li>
     </ul>
 
@@ -2103,8 +2096,8 @@ calculateDeltas: function(target) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">calculateDeltas = function (target) {
-  for (var layer = this.outputLayer; layer &#x3e;= 0; layer--) {
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+  for (var layer = this.outputLayer; layer &gt;= 0; layer--) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var output = this.outputs[layer][node];
 
       var error = 0;
@@ -2113,7 +2106,7 @@ calculateDeltas: function(target) {
       }
       else {
         var deltas = this.deltas[layer + 1];
-        for (var k = 0; k &#x3c; deltas.length; k++) {
+        for (var k = 0; k &lt; deltas.length; k++) {
           error += deltas[k] * this.weights[layer + 1][k][node];
         }
       }
@@ -2205,9 +2198,9 @@ error: 0.0039139985510105032,  // training error
   }
   // turn sparse hash input into arrays with 0s as filler
   var datum = data[0].input;
-  if (!_(datum).isArray() &#x26;&#x26; !(datum instanceof Float64Array)) {
+  if (!_(datum).isArray() &amp;&amp; !(datum instanceof Float64Array)) {
     if (!this.inputLookup) {
-      this.inputLookup = lookup.buildLookup(_(data).pluck(&#x22;input&#x22;));
+      this.inputLookup = lookup.buildLookup(_(data).pluck("input"));
     }
     data = data.map(function(datum) {
       var array = lookup.toArray(this.inputLookup, datum.input)
@@ -2217,7 +2210,7 @@ error: 0.0039139985510105032,  // training error
 
   if (!_(data[0].output).isArray()) {
     if (!this.outputLookup) {
-      this.outputLookup = lookup.buildLookup(_(data).pluck(&#x22;output&#x22;));
+      this.outputLookup = lookup.buildLookup(_(data).pluck("output"));
     }
     data = data.map(function(datum) {
       var array = lookup.toArray(this.outputLookup, datum.output);
@@ -2268,12 +2261,12 @@ var hiddenSizes = this.hiddenSizes;
   this.biases = new Array(size);
   this.outputs = new Array(size);
 
-  for (var i = 0; i &#x3c;= this.outputLayer; i++) {
+  for (var i = 0; i &lt;= this.outputLayer; i++) {
     var layer = json.layers[i];
-    if (i == 0 &#x26;&#x26; (!layer[0] || json.inputLookup)) {
+    if (i == 0 &amp;&amp; (!layer[0] || json.inputLookup)) {
       this.inputLookup = lookup.lookupFromHash(layer);
     }
-    else if (i == this.outputLayer &#x26;&#x26; (!layer[0] || json.outputLookup)) {
+    else if (i == this.outputLayer &amp;&amp; (!layer[0] || json.outputLookup)) {
       this.outputLookup = lookup.lookupFromHash(layer);
     }
 
@@ -2336,18 +2329,18 @@ var run = net.toFunction();
   this.changes = []; // for momentum
   this.errors = [];
 
-  for (var layer = 0; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 0; layer &lt;= this.outputLayer; layer++) {
     var size = this.sizes[layer];
     this.deltas[layer] = zeros(size);
     this.errors[layer] = zeros(size);
     this.outputs[layer] = zeros(size);
 
-    if (layer &#x3e; 0) {
+    if (layer &gt; 0) {
       this.biases[layer] = randos(size);
       this.weights[layer] = new Array(size);
       this.changes[layer] = new Array(size);
 
-      for (var node = 0; node &#x3c; size; node++) {
+      for (var node = 0; node &lt; size; node++) {
         var prevSize = this.sizes[layer - 1];
         this.weights[layer][node] = randos(prevSize);
         this.changes[layer][node] = zeros(prevSize);
@@ -2366,9 +2359,9 @@ var sizes = _([inputSize, hiddenSizes, outputSize]).flatten();
 this.<span class="apidocCodeKeywordSpan">initialize</span>(sizes);
 
 var error = 1;
-for (var i = 0; i &#x3c; iterations &#x26;&#x26; error &#x3e; errorThresh; i++) {
+for (var i = 0; i &lt; iterations &amp;&amp; error &gt; errorThresh; i++) {
   var sum = 0;
-  for (var j = 0; j &#x3c; data.length; j++) {
+  for (var j = 0; j &lt; data.length; j++) {
     sum += this.trainPattern(data[j].input, data[j].output);
   }
 ...</pre></li>
@@ -2411,7 +2404,7 @@ net.train([{input: [0, 0], output: [0]},
 var output = net.<span class="apidocCodeKeywordSpan">run</span>([1, 0]);  // [0.987]
 ```
 
-There&#x27;s no reason to use a neural network to figure out XOR however (-: so here&#x27;s a more involved, realistic example:
+There's no reason to use a neural network to figure out XOR however (-: so here's a more involved, realistic example:
 [Demo: training a neural network to recognize color contrast](http://harthur.github.com/brain/)
 
 ## Using in node
@@ -2436,12 +2429,12 @@ If you have [node](http://nodejs.org/) you can install with [npm](http://github.
     <li>description and source-code<pre class="apidocCodePre">runInput = function (input) {
   this.outputs[0] = input;  // set output state of input layer
 
-  for (var layer = 1; layer &#x3c;= this.outputLayer; layer++) {
-    for (var node = 0; node &#x3c; this.sizes[layer]; node++) {
+  for (var layer = 1; layer &lt;= this.outputLayer; layer++) {
+    for (var node = 0; node &lt; this.sizes[layer]; node++) {
       var weights = this.weights[layer][node];
 
       var sum = this.biases[layer][node];
-      for (var k = 0; k &#x3c; weights.length; k++) {
+      for (var k = 0; k &lt; weights.length; k++) {
         sum += weights[k] * input[k];
       }
       this.outputs[layer][node] = 1 / (1 + Math.exp(-sum));
@@ -2498,13 +2491,13 @@ run: function(input) {
   // run each pattern through the trained network and collect
   // error and misclassification statistics
   var sum = 0;
-  for (var i = 0; i &#x3c; data.length; i++) {
+  for (var i = 0; i &lt; data.length; i++) {
     var output = this.runInput(data[i].input);
     var target = data[i].output;
 
     var actual, expected;
     if (isBinary) {
-      actual = output[0] &#x3e; this.binaryThresh ? 1 : 0;
+      actual = output[0] &gt; this.binaryThresh ? 1 : 0;
       expected = target[0];
     }
     else {
@@ -2522,16 +2515,16 @@ run: function(input) {
     }
 
     if (isBinary) {
-      if (actual == 0 &#x26;&#x26; expected == 0) {
+      if (actual == 0 &amp;&amp; expected == 0) {
         trueNeg++;
       }
-      else if (actual == 1 &#x26;&#x26; expected == 1) {
+      else if (actual == 1 &amp;&amp; expected == 1) {
         truePos++;
       }
-      else if (actual == 0 &#x26;&#x26; expected == 1) {
+      else if (actual == 0 &amp;&amp; expected == 1) {
         falseNeg++;
       }
-      else if (actual == 1 &#x26;&#x26; expected == 0) {
+      else if (actual == 1 &amp;&amp; expected == 0) {
         falsePos++;
       }
     }
@@ -2598,9 +2591,9 @@ return {
     <li>description and source-code<pre class="apidocCodePre">toFunction = function () {
   var json = this.toJSON();
   // return standalone function that mimics run()
-  return new Function(&#x22;input&#x22;,
-&#x27;  var net = &#x27; + JSON.stringify(json) + &#x27;;\n\n\
-for (var i = 1; i &#x3c; net.layers.length; i++) {\n\
+  return new Function("input",
+'  var net = ' + JSON.stringify(json) + ';\n\n\
+for (var i = 1; i &lt; net.layers.length; i++) {\n\
   var layer = net.layers[i];\n\
   var output = {};\n\
   \n\
@@ -2615,7 +2608,7 @@ for (var i = 1; i &#x3c; net.layers.length; i++) {\n\
   }\n\
   input = output;\n\
 }\n\
-return output;&#x27;);
+return output;');
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
@@ -2657,38 +2650,38 @@ The network now has a [WriteStream](http://nodejs.org/api/stream.html#stream_cla
       layers: [
         { x: {},
           y: {}},
-        {&#x27;0&#x27;: {bias: -0.98771313, weights: {x: 0.8374838, y: 1.245858},
-         &#x27;1&#x27;: {bias: 3.48192004, weights: {x: 1.7825821, y: -2.67899}}},
-        { f: {bias: 0.27205739, weights: {&#x27;0&#x27;: 1.3161821, &#x27;1&#x27;: 2.00436}}}
+        {'0': {bias: -0.98771313, weights: {x: 0.8374838, y: 1.245858},
+         '1': {bias: 3.48192004, weights: {x: 1.7825821, y: -2.67899}}},
+        { f: {bias: 0.27205739, weights: {'0': 1.3161821, '1': 2.00436}}}
       ]
     }
   */
 </span>  var layers = [];
-  for (var layer = 0; layer &#x3c;= this.outputLayer; layer++) {
+  for (var layer = 0; layer &lt;= this.outputLayer; layer++) {
     layers[layer] = {};
 
     var nodes;
     // turn any internal arrays back into hashes for readable json
-    if (layer == 0 &#x26;&#x26; this.inputLookup) {
+    if (layer == 0 &amp;&amp; this.inputLookup) {
       nodes = _(this.inputLookup).keys();
     }
-    else if (layer == this.outputLayer &#x26;&#x26; this.outputLookup) {
+    else if (layer == this.outputLayer &amp;&amp; this.outputLookup) {
       nodes = _(this.outputLookup).keys();
     }
     else {
       nodes = _.range(0, this.sizes[layer]);
     }
 
-    for (var j = 0; j &#x3c; nodes.length; j++) {
+    for (var j = 0; j &lt; nodes.length; j++) {
       var node = nodes[j];
       layers[layer][node] = {};
 
-      if (layer &#x3e; 0) {
+      if (layer &gt; 0) {
         layers[layer][node].bias = this.biases[layer][j];
         layers[layer][node].weights = {};
         for (var k in layers[layer - 1]) {
           var index = k;
-          if (layer == 1 &#x26;&#x26; this.inputLookup) {
+          if (layer == 1 &amp;&amp; this.inputLookup) {
             index = this.inputLookup[k];
           }
           layers[layer][node].weights[k] = this.weights[layer][j][index];
@@ -2700,8 +2693,8 @@ The network now has a [WriteStream](http://nodejs.org/api/stream.html#stream_cla
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-If the training error is still something huge like `0.4` after 20000 iterations, it&#x27;s a good sign that the network can&#x27
-;t make sense of the data you&#x27;re giving it.
+If the training error is still something huge like `0.4` after 20000 iterations, it's a good sign that the network can'
+;t make sense of the data you're giving it.
 
 ## JSON
 Serialize or load in the state of a trained network with JSON:
@@ -2755,18 +2748,18 @@ You can also get a custom standalone function from a trained network that acts j
   this.initialize(sizes);
 
   var error = 1;
-  for (var i = 0; i &#x3c; iterations &#x26;&#x26; error &#x3e; errorThresh; i++) {
+  for (var i = 0; i &lt; iterations &amp;&amp; error &gt; errorThresh; i++) {
     var sum = 0;
-    for (var j = 0; j &#x3c; data.length; j++) {
+    for (var j = 0; j &lt; data.length; j++) {
       var err = this.trainPattern(data[j].input, data[j].output, learningRate);
       sum += err;
     }
     error = sum / data.length;
 
-    if (log &#x26;&#x26; (i % logPeriod == 0)) {
-      console.log(&#x22;iterations:&#x22;, i, &#x22;training error:&#x22;, error);
+    if (log &amp;&amp; (i % logPeriod == 0)) {
+      console.log("iterations:", i, "training error:", error);
     }
-    if (callback &#x26;&#x26; (i % callbackPeriod == 0)) {
+    if (callback &amp;&amp; (i % callbackPeriod == 0)) {
       callback({ error: error, iterations: i });
     }
   }
@@ -2779,7 +2772,7 @@ You can also get a custom standalone function from a trained network that acts j
     <li>example usage<pre class="apidocCodePre">...
 
 # brain
-`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here&#x27;s an example
+`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here's an example
  of using it to approximate the XOR function:
 
 ```javascript
@@ -2827,9 +2820,9 @@ var sizes = _([inputSize, hiddenSizes, outputSize]).flatten();
 this.initialize(sizes);
 
 var error = 1;
-for (var i = 0; i &#x3c; iterations &#x26;&#x26; error &#x3e; errorThresh; i++) {
+for (var i = 0; i &lt; iterations &amp;&amp; error &gt; errorThresh; i++) {
   var sum = 0;
-  for (var j = 0; j &#x3c; data.length; j++) {
+  for (var j = 0; j &lt; data.length; j++) {
     sum += this.<span class="apidocCodeKeywordSpan">trainPattern</span>(data[j].input, data[j].output);
   }
   error = sum / data.length;
@@ -2937,7 +2930,7 @@ return {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function buildLookup(hashes) {
-  // [{a: 1}, {b: 6, c: 7}] -&#x3e; {a: 0, b: 1, c: 2}
+  // [{a: 1}, {b: 6, c: 7}] -&gt; {a: 0, b: 1, c: 2}
   var hash = _(hashes).reduce(function(memo, hash) {
     return _(memo).extend(hash);
   }, {});
@@ -2951,7 +2944,7 @@ formatData: function(data) {
   // turn sparse hash input into arrays with 0s as filler
   if (!_(data[0].input).isArray()) {
     if (!this.inputLookup) {
-      this.inputLookup = lookup.<span class="apidocCodeKeywordSpan">buildLookup</span>(_(data).pluck(&#x22;input&#x22;));
+      this.inputLookup = lookup.<span class="apidocCodeKeywordSpan">buildLookup</span>(_(data).pluck("input"));
     }
     data = data.map(function(datum) {
       var array = lookup.toArray(this.inputLookup, datum.input)
@@ -2975,15 +2968,15 @@ formatData: function(data) {
   // super fast loop
   var z = 0;
   var i = array.length;
-  while (i-- &#x3e; 0) {
+  while (i-- &gt; 0) {
     lookup[array[i]] = z++;
   };
   return lookup;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 TrainStream.prototype.finishStreamIteration = function() {
-  if (this.dataFormatDetermined &#x26;&#x26; this.size !== this.count) {
-console.log(&#x22;This iteration&#x27;s data length was different from the first.&#x22;);
+  if (this.dataFormatDetermined &amp;&amp; this.size !== this.count) {
+console.log("This iteration's data length was different from the first.");
   }
 
   if (!this.dataFormatDetermined) {
@@ -3009,7 +3002,7 @@ var hiddenSizes = this.hiddenSizes;
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function lookupFromHash(hash) {
-  // {a: 6, b: 7} -&#x3e; {a: 0, b: 1}
+  // {a: 6, b: 7} -&gt; {a: 0, b: 1}
   var lookup = {};
   var index = 0;
   for (var i in hash) {
@@ -3022,12 +3015,12 @@ var hiddenSizes = this.hiddenSizes;
     this.biases = new Array(size);
     this.outputs = new Array(size);
 
-    for (var i = 0; i &#x3c;= this.outputLayer; i++) {
+    for (var i = 0; i &lt;= this.outputLayer; i++) {
 var layer = json.layers[i];
-if (i == 0 &#x26;&#x26; !layer[0]) {
+if (i == 0 &amp;&amp; !layer[0]) {
   this.inputLookup = lookup.<span class="apidocCodeKeywordSpan">lookupFromHash</span>(layer);
 }
-else if (i == this.outputLayer &#x26;&#x26; !layer[0]) {
+else if (i == this.outputLayer &amp;&amp; !layer[0]) {
   this.outputLookup = lookup.lookupFromHash(layer);
 }
 
@@ -3046,7 +3039,7 @@ this.sizes[i] = nodes.length;
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function toArray(lookup, hash) {
-  // {a: 0, b: 1}, {a: 6} -&#x3e; [6, 0]
+  // {a: 0, b: 1}, {a: 6} -&gt; [6, 0]
   var array = [];
   for (var i in lookup) {
     array[lookup[i]] = hash[i] || 0;
@@ -3082,7 +3075,7 @@ if (this.outputLookup) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function toHash(lookup, array) {
-  // {a: 0, b: 1}, [6, 7] -&#x3e; {a: 6, b: 7}
+  // {a: 0, b: 1}, [6, 7] -&gt; {a: 6, b: 7}
   var hash = {};
   for (var i in lookup) {
     hash[i] = array[lookup[i]];
@@ -3134,7 +3127,7 @@ runInput: function(input) {
 
 
 # brain
-`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here&#x27;s an example
+`brain` is a JavaScript [neural network](http://en.wikipedia.org/wiki/Artificial_neural_network) library. Here's an example
  of using it to approximate the XOR function:
 
 ```javascript
@@ -3158,3 +3151,4 @@ var output = net.run([1, 0]);  // [0.987]
     ]
 </div>
 </div>
+</body></html>
