@@ -1,4 +1,7 @@
-# api documentation for  [brain (v0.7.0)](https://github.com/harthur/brain)  [![npm package](https://img.shields.io/npm/v/npmdoc-brain.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-brain) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-brain.svg)](https://travis-ci.org/npmdoc/node-npmdoc-brain)
+# npmdoc-brain
+
+#### basic api documentation for  [brain (v0.7.0)](https://github.com/harthur/brain)  [![npm package](https://img.shields.io/npm/v/npmdoc-brain.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-brain) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-brain.svg)](https://travis-ci.org/npmdoc/node-npmdoc-brain)
+
 #### Neural network library
 
 [![NPM](https://nodei.co/npm/brain.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/brain)
@@ -59,7 +62,8 @@
         "type": "git",
         "url": "git+ssh://git@github.com/harthur/brain.git"
     },
-    "version": "0.7.0"
+    "version": "0.7.0",
+    "bin": {}
 }
 ```
 
